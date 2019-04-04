@@ -1,0 +1,64 @@
+<div class="row">
+  <div class="col col-sm-12">
+    <div *ngIf="!numLimit" ng-repeat="let i of players; let j=index">
+      <div>
+        Enter player name
+        <form class="example-form">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Name" #name />
+          </mat-form-field>
+
+          <button mat-fab (click)="addPlayer(name.value)" type="button">
+            <mat-icon class="material-icons">
+              done
+            </mat-icon>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="check()">
+  <div *ngFor="let player of players; let i = index" class="row group" style="padding: 3px">
+    <div class="col col-sm-2">
+      {{player.name}} <br>
+      Points: {{player.totalPoints}}
+
+      <div *ngIf="!player.bust">
+        <button mat-fab (click)="hit(i)">
+          hit
+        </button>
+      </div>
+      <div *ngIf="!player.stand">
+        <button mat-fab (click)="stand(i)">
+          stand
+        </button>
+      </div>
+      <div *ngIf="checkIfAce(i)">
+        <div *ngIf="showAceButton">
+          <button mat-fab (click)="changeAceValue(i)" style="font-size:70%">
+            Ace => 11
+          </button>
+        </div>
+      </div>
+    </div>
+
+
+    <div *ngFor="let card of player.hand" style="padding: 5px;background-color:green;">
+      <div class="container">
+        <img [src]="card.image" width="80" height="160">
+
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="canIResult" class="row">
+  <div class="col-sm-2">
+    <button mat-fab (click)="getResult()">
+      result
+    </button>
+  </div>
+  <div class="col-sm-2" *ngFor="let player of players">
+    {{player.name}} - {{player.result}}
+  </div>
+</div>
